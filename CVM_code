@@ -1,0 +1,129 @@
+The coffee machine should maintain an inventory of its ingredients such as coffee, milk, sugar, cream, and cups. 
+The program should check the availability of ingredients before dispensing the drink and should prompt the user to refill the inventory if it runs low. 
+The program should also maintain a record of all the transactions performed by the machine.
+ingredients - coffe, milk, sugar, cream, cups
+availability - 10,10,10,10,10
+menu - coffee, black coffee, cappuccino
+item code - 101, 102, 103 mention rate of the item
+available balance - INR
+Needed steps
+user gives the code of the item
+program has to do the availability check of the item
+has to show the available balance in the machine
+if the item has any less ingredient, it should show the item is not available would you like to order something
+if the ingredients are available it should give the output
+amount check
+
+# menu
+def rate():
+    print('item_code - 1\n Coffee - Rs.20')
+    print('item_code - 2\n Tea - Rs. 15')
+    #item_code = int(input("What would you like to order: "))
+    item_rate = {1:20, 2:15}
+    
+def preparation(item_code_no,ing):
+    update_ing = ing
+    if item_code_no == 1:
+        update_ing["c_powder"] =update_ing["c_powder"] - 1
+        update_ing["milk"] = update_ing["milk"] - 1
+        update_ing["sugar"] =update_ing["sugar"] - 1
+        update_ing["cups"] = update_ing["cups"] - 1
+        print("Here is your Coffe. Have a nice day!!!!")
+    elif item_code_no == 2:
+        update_ing["t_powder"] =update_ing["t_powder"] - 1
+        update_ing["milk"] = update_ing["milk"] - 1
+        update_ing["sugar"] =update_ing["sugar"] - 1
+        update_ing["cups"] = update_ing["cups"] - 1
+        print("Here is your Tes. Have a nice day!!!!")
+    return update_ing
+
+def check_ingredients(item_code_no,ing):
+    
+    if item_code_no == 1:
+        if ing["c_powder"]>=1 and ing["milk"]>=1 and ing["sugar"]>=1 and ing["cups"]>=1:
+            print('Available ingredients: C_powder - ',ing["c_powder"],'Milk-',ing["milk"],'Sugar-',ing["sugar"],'Cups-',ing["cups"])
+        elif ing["c_powder"]==0 and ing["milk"] ==0 and ing["sugar"]==0 and ing["cups"]==0:
+            print('Sorry!! Ingredients are out of stock')
+            refill = input("click Yes to refill the stock by provider and No to reorder the new item ? (Yes/No): ")
+            if refill == "Yes":
+                ing["c_powder"] = 10
+                ing["milk"] = 10
+                ing["sugar"] = 10 
+                ing["cups"] = 10
+            elif refill == "No":
+                order()    
+            
+            
+    if item_code_no == 2:
+        if ing["t_powder"]>=1 and ing["milk"]>=1 and ing["sugar"]>=1 and ing["cups"]>=1:
+            print('Available ingredients: T_powder - ',ing["t_powder"],'Milk-',ing["milk"],'Sugar-',ing["sugar"],'Cups-',ing["cups"])
+            
+        elif ing["t_powder"]==0 and ing["milk"] ==0 and ing["sugar"]==0 and ing["cups"]==0:
+            print('Sorry!! Ingredients are out of stock')
+            refill = input("click Yes to refill the stock by provider and No to reorder the new item ? (Yes/No): ")
+            if refill == "Yes":
+                ing["c_powder"] = 10
+                ing["milk"] = 10
+                ing["sugar"] = 10 
+                ing["cups"] = 10
+            elif refill == "No":
+                order()    
+    
+def transaction(item_code_no,balance,amt):
+    amt = balance
+    user_amt = int(input('Amount: '))
+    if item_code_no == 1:
+        if user_amt == 20:
+            avail_balance = balance+user_amt
+            print('Your coffee is being prepared!!')
+            print('Balance amount: ',avail_balance)
+            
+        elif user_amt>=20:
+            remaining_amt = user_amt-20
+            if balance < remaining_amt:
+                print("No change!!")
+            else:
+                avail_balance = balance - remaining_amt + 20
+            print('Here is your change',user_amt-20,',your coffee is being prepared!!')
+            print('Balance amount: ', avail_balance)
+            
+        elif user_amt<20:
+            print("Sorry!! coffe amount is 20rs, couldn't place the order.")
+    if item_code_no == 2:
+        if user_amt == 15:
+            avail_balance = balance+user_amt
+            print('Your coffee is being prepared!!')
+            print('Balance amount: ',avail_balance)
+            
+        elif user_amt>=15:
+            remaining_amt = user_amt-15
+            if balance < remaining_amt:
+                print("No change!!")
+            else:
+                avail_balance = balance - remaining_amt + 15
+            print('Here is your change',user_amt-15,',your coffee is being prepared!!')
+            print('Balance amount: ', avail_balance)
+            
+        elif user_amt<15:
+            print("Sorry!! coffe amount is 15rs, couldn't place the order.") 
+def item_code():
+    return int(input('What would you like to order: '))
+    
+def order():
+    order_no = 0
+    ing =  {"c_powder" : 2, "t_powder" : 2, "milk" : 2, "sugar" : 2, "cups" : 2  }
+    amt = 100 + avail_balance
+    while order_no <= 10:
+        rate() #menu
+         #user input
+        item_code_no = item_code()
+        while  item_code_no > 2:
+            print('Please enter correct item_code')
+            item_code_no = item_code()
+        check_ingredients(item_code_no,ing)
+        transaction(item_code_no,balance,amt)
+        preparation(item_code_no,ing)
+        order_no = order_no+1
+    
+                
+order()
